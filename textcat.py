@@ -87,15 +87,12 @@ class TextClassificationModel:
         test_y_pred = [max(self.nlp(example.text).cats, key=self.nlp(example.text).cats.get) for example in test_examples]
         
         # Metrics for testing
-        self.scoring(test_y_true, test_y_pred, "Test", epoch=None, loss=None, labels=labels)
+        self.scoring(test_y_true, test_y_pred, "Test", epoch=float('inf'), loss=float('inf'), labels=labels)
 
     def save_model(self, path: str) -> None:
         self.nlp.to_disk(path)
     
     def train_model(self, data_path: str, test_size: float = 0.3, valid_size: float = 0.5, frac: float = 0.5, epochs: int = 10) -> None:
-        from sklearn.model_selection import train_test_split
-        import pandas as pd
-
         data_df = pd.read_csv(data_path).sample(frac=frac, random_state=42)
         data = list(zip(data_df['chf cmplnt'] + ' ' + data_df['A/P'], data_df['icd10encounterdiagcode'].str[:3]))
 
@@ -110,4 +107,4 @@ class TextClassificationModel:
         train_data, valid_data, test_data = self.process_data(train_data, labels), self.process_data(valid_data, labels), self.process_data(test_data, labels) # Process the data
         self.train(train_data, valid_data, labels, epochs)
         self.test(test_data, labels)
-        self.save_model(f'./models/frac_{frac}')
+        self.save_model(f'./frac_{frac}')

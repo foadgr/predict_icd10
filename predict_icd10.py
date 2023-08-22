@@ -3,7 +3,7 @@ import argparse
 
 def predict_icd10(text):
 
-    nlp = spacy.load('./model/frac_0.2')
+    nlp = spacy.load('frac_0.5')
     doc = nlp(text)
     predicted_label = max(doc.cats, key=doc.cats.get)
     

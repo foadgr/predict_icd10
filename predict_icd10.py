@@ -1,5 +1,10 @@
 import spacy
 import argparse
+import warnings
+import sklearn.exceptions
+
+warnings.filterwarnings("ignore", category=UserWarning)
+warnings.filterwarnings("ignore", category=sklearn.exceptions.UndefinedMetricWarning)
 
 def predict_icd10(text):
 
